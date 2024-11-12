@@ -4,36 +4,67 @@ squares.forEach(square => {
     square.addEventListener('click', () => setMoveCordinates(square));
 });
 
+fetch("loadSave.php", {
+    method: "POST",
+}).then(response => response.json())
+    .then(json => {
+        renderPosition(JSON.stringify(json));
+    })
+    .catch(error => console.error('Error:', error));
+
 let movePieceFrom = "";
 let movePieceTo = "";
 
 function setMoveCordinates(square) {
     if (movePieceFrom == "") {
         movePieceFrom = square.id;
+
+        if(square.classList.contains("black")){
+            square.classList.add("black_selected");
+        }else{
+            square.classList.add("white_selected");
+        }
     } else {
         if (movePieceTo == "") {
             movePieceTo = square.id;
+            if(square.classList.contains("black")){
+                square.classList.add("black_selected");
+            }else{
+                square.classList.add("white_selected");
+            }
         }
     }
 }
 
-
 async function startingPosition() {
-    await fetch("reset.php", {
-        method: "POST",
-    }).then(response => response.json())
-        .then(json => {
-            renderPosition(JSON.stringify(json));
-            movePieceFrom = "";
-            movePieceTo = "";
-        })
-        .catch(error => console.error('Error:', error));
+
+    const userConfirmed = confirm("Biztosan vissza szeretnéd állítani a táblát?");
+    
+    if (userConfirmed) {
+        await fetch("reset.php", {
+            method: "POST",
+        }).then(response => response.json())
+            .then(json => {
+                renderPosition(JSON.stringify(json));
+                movePieceFrom = "";
+                movePieceTo = "";
+            })
+            .catch(error => console.error('Error:', error));
+    }
 }
 
 
 const params = new URLSearchParams();
 
 async function movePiece() {
+    document.querySelectorAll('.black_selected').forEach(element => {
+        element.classList.remove('black_selected');
+    });
+
+    document.querySelectorAll('.white_selected').forEach(element => {
+        element.classList.remove('white_selected');
+    });
+
     if (!(movePieceFrom == "" || movePieceTo == "")) {
 
 
