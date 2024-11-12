@@ -14,7 +14,8 @@
     $startingPosition = [
         1 => ["rook-b", "knight-b", "bishop-b", "queen-b", "king-b", "bishop-b", "knight-b", "rook-b"],
         2 => array_fill(0, 8, "pawn-b"),
-        7 => array_fill(0, 8, "pawn-w"),
+        5 => ["pawn-w"],
+        7 => array_fill(1, 8, "pawn-w"),
         8 => ["rook-w", "knight-w", "bishop-w", "queen-w", "king-w", "bishop-w", "knight-w", "rook-w"],
     ];
 
@@ -22,8 +23,7 @@
 
         for ($col = 1; $col <= 8; $col++) {
 
-            $isBlack = (($row + $col)-1) % 2 == 0;
-            $colorClass = $isBlack ? "black" : "white";
+            $colorClass = (($row + $col)-1) % 2 == 0 ? "black" : "white";
 
             $squareId = "square-$row$col";
 
@@ -39,6 +39,10 @@
     }
     ?>
     </div>
+    <button onclick= movePiece()>Move</button>
+
+    <p id="debug"></p>
+    <script src="index.js"></script>
 </body>
 
 </html>
