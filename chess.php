@@ -22,10 +22,9 @@ if ($movePieceFrom != $movePieceTo) {
         $currentPositionArray[$movePieceFromDigits[0]][$movePieceFromDigits[1]] = null;
 
         $newPosition = json_encode($currentPositionArray);
-        Position::removePosition();
         Position::savePostition($newPosition);
 
-        echo $newPosition;
+        echo Position::readPosition();
     } else {
         echo Position::readPosition();
     }

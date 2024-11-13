@@ -122,3 +122,27 @@ function renderPosition(json) {
         }
     }
 }
+
+async function undo(){
+    await fetch("undo.php", {
+        method: "POST",
+    }).then(response => response.json())
+        .then(json => {
+            renderPosition(JSON.stringify(json));
+            movePieceFrom = "";
+            movePieceTo = "";
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+async function redo(){
+    await fetch("redo.php", {
+        method: "POST",
+    }).then(response => response.json())
+        .then(json => {
+            renderPosition(JSON.stringify(json));
+            movePieceFrom = "";
+            movePieceTo = "";
+        })
+        .catch(error => console.error('Error:', error));
+}
